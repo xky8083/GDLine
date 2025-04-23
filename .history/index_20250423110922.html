@@ -52,15 +52,13 @@
 		const satelliteMap = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 			subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
 		});
-		const satelliteMap2 = L.tileLayer('http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
-        
         
         // 初始化地图
         const map = L.map('map',{layers: [streetMap]}).setView([35.92878964756681, 120.15112630694239], 16);
 
         const baseLayers = {
 			"街景影像": streetMap,
-			"谷歌影像": satelliteMap2,
+			"谷歌影像": satelliteMap,
 		}
 		var layerControl = L.control.layers(baseLayers, null);
 		layerControl.addTo(map);

@@ -52,7 +52,9 @@
 		const satelliteMap = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 			subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
 		});
-		const satelliteMap2 = L.tileLayer('http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
+		const satelliteMap2 = L.tileLayer('http://t0.tianditu.gov.cn/img_w/wmts?tk=a4ef03c0ba041dcd3c0e566561d7c046', {
+			subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+		});
         
         
         // 初始化地图
