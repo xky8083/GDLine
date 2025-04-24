@@ -144,9 +144,12 @@
         
         
         // 初始化地图
-        const map = L.map('map',{layers: [satelliteMap2, marked]}).setView([35.9276610,120.1449630], 18);
+        const map = L.map('map',{layers: [marked]}).setView([35.9276610,120.1449630], 18);
 
-
+        const baseLayers = {
+			"街景影像": marked,
+			"谷歌影像": satelliteMap2,
+		}
 	
         // // 获取地图中心点并显示已有标记点
         // fetch('http://localhost:3000/api/points')
@@ -198,7 +201,7 @@
             "points": points,
             "line": line
         };
-        var layerControl = L.control.layers(null, overlayMaps);
+        var layerControl = L.control.layers(baseLayers, overlayMaps);
 		layerControl.addTo(map);
     </script>
 </body>

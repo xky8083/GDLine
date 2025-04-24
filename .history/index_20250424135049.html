@@ -144,9 +144,7 @@
         
         
         // 初始化地图
-        const map = L.map('map',{layers: [satelliteMap2, marked]}).setView([35.9276610,120.1449630], 18);
-
-
+        const map = L.map('map',{layers: [marked,satelliteMap2]}).setView([35.9276610,120.1449630], 18);
 	
         // // 获取地图中心点并显示已有标记点
         // fetch('http://localhost:3000/api/points')
