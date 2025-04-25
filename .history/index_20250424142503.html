@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet 点位可视化系统</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+     <style>
+        #map {
+            width: 100%;
+            height: 850px;
+        }
+        .popup-content {
+            width: 400px;
+            height: auto;
+        }
+        .popup-content img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+        }
+        body {
+        padding: 0;
+        margin: 0;
+        }
+        /* #locate-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            z-index: 1000;
+            background: white;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #locate-btn:hover {
+            background: #f4f4f4;
+        } */
+    html, body, #map {
+        height: 100%;
+        width: 100%;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+    <div id="map"></div>
+    <button id="locate-btn">定位我的位置</button>
+    <script src="./geodata.js"></script>
+
+    <script>
+        // // 初始化变量
+        // let userMarker = null;
+        // let accuracyCircle = null;
+
+        // // 定位按钮点击处理
+        // document.getElementById('locate-btn').addEventListener('click', function() {
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(showPosition, handleLocationError, {
+        //             enableHighAccuracy: true,
+        //             maximumAge: 30000,
+        //             timeout: 27000
+        //         });
+        //     } else {
+        //         alert("您的浏览器不支持地理定位功能");
+        //     }
+        // });
+
+        // // 成功获取位置回调
+        // function showPosition(position) {
+        //     const lat = position.coords.latitude;
+        //     const lng = position.coords.longitude;
+        //     const accuracy = position.coords.accuracy;
+            
+        //     // 移除旧的标记和精度圈
+        //     if (userMarker) {
+        //         map.removeLayer(userMarker);
+        //         map.removeLayer(accuracyCircle);
+        //     }
+
+        //     // 创建新的标记和精度圈
+        //     userMarker = L.marker([lat, lng], {
+        //         icon: L.divIcon({
+        //             className: 'user-location-marker',
+        //             iconSize: [20, 20],
+        //             html: '<div style="background: #1976d2; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.3)"></div>'
+        //         })
+        //     }).addTo(map)
+        //     .bindPopup(`您的当前位置<br>纬度: ${lat.toFixed(6)}<br>经度: ${lng.toFixed(6)}`);
+
+        //     accuracyCircle = L.circle([lat, lng], {
+        //         color: '#1976d2',
+        //         fillColor: '#1976d2',
+        //         fillOpacity: 0.2,
+        //         radius: accuracy
+        //     }).addTo(map);
+
+        //     // 调整地图视图
+        //     map.setView([lat, lng], Math.min(map.getZoom(), 18));
+        // }
+
+        // // 处理定位错误
+        // function handleLocationError(error) {
+        //     let message = '';
+        //     switch(error.code) {
+        //         case error.PERMISSION_DENIED:
+        //             message = "用户拒绝位置请求";
+        //             break;
+        //         case error.POSITION_UNAVAILABLE:
+        //             message = "位置信息不可用";
+        //             break;
+        //         case error.TIMEOUT:
+        //             message = "请求位置超时";
+        //             break;
+        //         case error.UNKNOWN_ERROR:
+        //             message = "未知错误";
+        //             break;
+        //     }
+        //     alert("获取位置失败: " + message);
+        // }
+
+        const dataPoint = points
+        const dataLine = line
+        // console.log(dataPoint);
+        // 添加地图图层
+        const streetMap= L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        //注记
+        const marked = L.tileLayer('http://t0.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
+    
+        //天地图
+		const satelliteMap = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+			subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+		});
+		const satelliteMap2 = L.tileLayer('http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
+        
+        
+        // 初始化地图
+        const map = L.map('map',{layers: [satelliteMap2, marked]}).setView([35.9276610,120.1449630], 18);
+
+
+	
+        // // 获取地图中心点并显示已有标记点
+        // fetch('http://localhost:3000/api/points')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         data.forEach(point => {
+        //             L.marker(point.latlng)
+        //                 .addTo(map)
+        //                 .bindPopup(`
+        //                     <div class="popup-content">
+        //                         <h3>${point.name}</h3>
+        //                         <img src="${point.photo}" alt="${point.name}">
+        //                         <p>${point.description}</p>
+        //                     </div>
+        //                 `);
+        //         });
+        //     })
+        //     .catch(error => console.error('Error fetching points:', error));
+
+
+        // 这一块最好用数据库连接，不要写死在这里。用geojson
+        // var point = {
+        // "type": "Feature",
+        // "properties": {
+        //     "name": "Coors Field",
+        //     "amenity": "Baseball Stadium",
+        //     "popupContent": "This is where the Rockies play!"
+        // },
+        // "geometry": {
+        //     "type": "Point",
+        //     "coordinates": [120.1396741, 35.9270605]
+        // }};
+        
+        //L.geoJSON(point).addTo(map).bindPopup('<div> Hello world! <br>I am a popup. <img style="width:400px; height:400px" src="./img/11/JPEG_20250421_094408.jpg"/> </div>');
+
+        var points=L.geoJSON(dataPoint).bindPopup(function(layer) {
+                var name = layer.feature.properties.name;
+                var photo = layer.feature.properties.photo;
+                var introduce = layer.feature.properties.introduce;
+
+                return `<div class="popup-content">
+                            <img style="width:300px; height:100%" src="${photo}" alt="${name}" />
+                            <p>${introduce}</p>
+                        </div>`;
+            });
+        points.addTo(map);
+        var line = L.geoJSON(dataLine)
+        var overlayMaps = {
+            "points": points,
+            "line": line
+        };
+        var layerControl = L.control.layers(null, overlayMaps);
+		layerControl.addTo(map);
+        // 定位模块
+        let watchId = null;
+        let userMarker = null;
+        let accuracyCircle = null;
+
+        // 启动实时定位
+        function startTracking() {
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(
+                    position => updatePosition(position),
+                    handleLocationError,
+                    {
+                        enableHighAccuracy: true,  // 启用高精度模式
+                        maximumAge: 0,            // 禁用位置缓存
+                        timeout: 5000              // 超时时间5秒
+                    }
+                );
+            } else {
+                alert("浏览器不支持地理定位");
+            }
+        }
+
+        // 更新位置显示
+        function updatePosition(position) {
+            const { latitude, longitude, accuracy } = position.coords;
+            
+            // WGS84转火星坐标（GCJ-02）
+            const convertedPos = wgs84ToGcj02(longitude, latitude); 
+            
+            if (!userMarker) {
+                // 创建动态定位标记（蓝色脉冲点）
+                userMarker = L.marker([convertedPos.lat, convertedPos.lng], {
+                    icon: L.divIcon({
+                        className: 'live-marker',
+                        html: '<div class="pulse"></div>',
+                        iconSize: [20, 20]
+                    })
+                }).addTo(map);
+                
+                // 精度范围圈
+                accuracyCircle = L.circle([convertedPos.lat, convertedPos.lng], {
+                    radius: accuracy,
+                    color: '#3388ff',
+                    fillOpacity: 0.15
+                }).addTo(map);
+            } else {
+                // 平滑移动动画
+                userMarker.setLatLng([convertedPos.lat, convertedPos.lng], {
+                    duration: 1000,
+                    easeLinearity: 0.25
+                });
+                accuracyCircle.setLatLng([convertedPos.lat, convertedPos.lng])
+                            .setRadius(accuracy);
+            }
+            
+            // 自动调整地图中心（首次定位）
+            if (!map.getCenter().equals([convertedPos.lat, convertedPos.lng], 1000)) {
+                map.setView([convertedPos.lat, convertedPos.lng], 17);
+            }
+        }
+    </script>
+</body>
+</html>

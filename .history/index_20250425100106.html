@@ -102,13 +102,27 @@
         var layerControl = L.control.layers(null, overlayMaps);
 		layerControl.addTo(map);
 
-        lc = L.control.locate({
-                strings: {
-                title: "Show me where I am, yo!"
-                }
-            })
-            .addTo(map);
-
+        // 定位按钮
+        const locateBtn = document.getElementById('locate-btn');
+        locateBtn.addEventListener('click', () => {
+            map.locate({setView: true, maxZoom: 16});
+        });
+        
+        // 定位成功回调
+        function onLocationFound(e) {
+            const radius = e.accuracy / 2;
+            L.marker(e.latlng).addTo(map)
+                .bindPopup(`你在这里!<br>精确度: ${radius} 米`).openPopup();
+            L.circle(e.latlng, radius).addTo(map);
+        }
+        
+        // 定位失败回调
+        function onLocationError(e) {
+            alert(e.message);
+        }
+        
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
 
     </script>
 </body>
