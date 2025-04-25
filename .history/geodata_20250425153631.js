@@ -162,7 +162,7 @@ var points = {
         {"type":"Feature","properties":{"name":"Point 108","introduce":"这是第108个点","photo":"./img/108/JPEG_20250424_164115.jpg"},"geometry":{"type":"Point","coordinates":[120.0885277,35.9273723]}},
         {"type":"Feature","properties":{"name":"Point 109","introduce":"这是第109个点","photo":"./img/109/JPEG_20250424_164209.jpg"},"geometry":{"type":"Point","coordinates":[120.0889095,35.9278891]}},
         {"type":"Feature","properties":{"name":"Point 110","introduce":"这是第110个点","photo":"./img/110/JPEG_20250424_164601.jpg"},"geometry":{"type":"Point","coordinates":[120.0895647,35.9295409]}},
-        {"type":"Feature","properties":{"name":"Point 110","introduce":"这是第111个点","photo":""},"geometry":{"type":"Point","coordinates":[120.0895797,35.9296359]}},
+        {"type":"Feature","properties":{"name":"Point 110","introduce":"这是第111个点","photo":"./img/11/JPEG_20250421_094408.jpg"},"geometry":{"type":"Point","coordinates":[120.0895797,35.9296359]}},
 
     ]};
 
