@@ -12,6 +12,9 @@
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
      <script src="src/L.Control.Locate.min.js"></script>
+     <script src="src/leaflet.ChineseTmsProviders.js"></script>
+     <script src="https://cdn.bootcss.com/proj4js/2.4.3/proj4.js"></script>
+     <script src="https://cdn.bootcss.com/proj4leaflet/1.0.1/proj4leaflet.min.js"></script>
      <style>
         #map {
             width: 100%;
@@ -73,9 +76,13 @@
     
         //天地图
 		const satelliteMap = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-			subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
 		});
-		const satelliteMap2 = L.tileLayer('http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
+		const satelliteMap2 = L.tileLayer.chinaProvider('TianDiTu.Satellite.Map', {
+            key:'a4ef03c0ba041dcd3c0e566561d7c046',
+            maxZoom: 18,
+            minZoom: 5
+        });
         
         
         // 初始化地图
@@ -103,10 +110,6 @@
 		layerControl.addTo(map);
 
         lc = L.control.locate({
-            locateOptions: {
-                enableHighAccuracy: true,
-                maximumAge:100
-                },
                 strings: {
                 title: "Show me where I am, yo!"
                 }
