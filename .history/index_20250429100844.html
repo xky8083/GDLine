@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet 点位可视化系统</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+    <link rel="stylesheet" href="./src/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+     <script src="src/L.Control.Locate.min.js"></script>
+     <style>
+        #map {
+            width: 100%;
+            height: 850px;
+        }
+        .popup-content {
+            width: 400px;
+            height: auto;
+        }
+        .popup-content img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+        }
+        body {
+        padding: 0;
+        margin: 0;
+        }
+        /* #locate-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            z-index: 1000;
+            background: white;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #locate-btn:hover {
+            background: #f4f4f4;
+        } */
+    html, body, #map {
+        height: 100%;
+        width: 100%;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+    <div id="map"></div>
+    <button id="locate-btn">定位我的位置</button>
+    <script src="./geodata.js"></script>
+
+    <script>
+
+        const dataPoint = points
+        const dataTPoint = TPoints
+        const dataLine = line
+        // console.log(dataPoint);
+        // 添加地图图层
+        const streetMap= L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        //注记
+        const marked = L.tileLayer('http://t0.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
+    
+        //天地图
+		const satelliteMap = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+			subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+		});
+		const satelliteMap2 = L.tileLayer('http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=a4ef03c0ba041dcd3c0e566561d7c046');
+        
+        
+        // 初始化地图
+        const map = L.map('map',{layers: [satelliteMap2, marked]}).setView([35.9276610,120.1449630], 18);
+        var points=L.geoJSON(dataPoint).bindPopup(function(layer) {
+                var name = layer.feature.properties.name;
+                var photo = layer.feature.properties.photo;
+                var introduce = layer.feature.properties.introduce;
+
+                return `<div class="popup-content">
+                            <img style="width:300px; height:100%" src="${photo}" alt="暂无图片" />
+                            <p>${introduce}</p>
+                        </div>`;
+            });
+        points.addTo(map);
+        var line = L.geoJSON(dataLine)
+        var overlayMaps = {
+            "points": points,
+            "line": line
+        };
+        var TPoints = L.geoJSON(dataTPoint, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: L.icon({
+            iconUrl: "./img//R.jpg",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            })});
+            },
+        }).bindPopup(function(layer) {
+                var name = layer.feature.properties.name;
+                var photo = layer.feature.properties.photo;
+                var introduce = layer.feature.properties.introduce;
+
+                return `<div class="popup-content">
+                            <img style="width:300px; height:100%" src="${photo}" alt="暂无图片" />
+                            <p>${introduce}</p>
+                        </div>`;
+            })
+        TPoints.addTo(map);
+
+        var layerControl = L.control.layers(null, overlayMaps);
+		layerControl.addTo(map);
+
+        lc = L.control.locate({
+            locateOptions: {
+                enableHighAccuracy: true,
+                watch: true,
+                maximumAge:5000
+                },
+                strings: {
+                title: "Show me where I am, yo!"
+                }
+            })
+            .addTo(map);
+
+
+    </script>
+</body>
+</html>

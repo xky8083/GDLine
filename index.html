@@ -63,6 +63,7 @@
     <script>
 
         const dataPoint = points
+        const dataTPoint = TPoints
         const dataLine = line
         // console.log(dataPoint);
         // 添加地图图层
@@ -81,9 +82,7 @@
         
         // 初始化地图
         const map = L.map('map',{layers: [satelliteMap2, marked]}).setView([35.9276610,120.1449630], 18);
-        var points=L.geoJSON(dataPoint,{pointToLayer:function(feature, latlng){
-            return L.marker(latlng, );
-        }}).bindPopup(function(layer) {
+        var points=L.geoJSON(dataPoint).bindPopup(function(layer) {
                 var name = layer.feature.properties.name;
                 var photo = layer.feature.properties.photo;
                 var introduce = layer.feature.properties.introduce;
@@ -99,6 +98,28 @@
             "points": points,
             "line": line
         };
+        /*, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: L.icon({
+            iconUrl: "./img/flash.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            })});
+            },
+        }*/
+        var TPoints = L.geoJSON(dataTPoint).bindPopup(function(layer) {
+                var name = layer.feature.properties.name;
+                var photo = layer.feature.properties.photo;
+                var introduce = layer.feature.properties.introduce;
+
+                return `<div class="popup-content">
+                            <img style="width:300px; height:100%" src="${photo}" alt="暂无图片" />
+                            <p>${introduce}</p>
+                        </div>`;
+            })
+        TPoints.addTo(map);
+
         var layerControl = L.control.layers(null, overlayMaps);
 		layerControl.addTo(map);
 
