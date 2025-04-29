@@ -2,7 +2,7 @@ var points = {
     "type":"FeatureCollection"
     ,"features":[
         
-        {"type":"Feature","properties":{"name":"Point 1","introduce":"主所","photo":"./img/主所/JPEG_20250421_112753.jpg","zjt":""},
+        {"type":"Feature","properties":{"name":"Point 1","introduce":"主所","photo":"./img/主所/JPEG_20250421_112753.jpg","zjt":" "},
         "geometry":{"type":"Point","coordinates":[120.1449630,35.9276610]}},
         {"type":"Feature","properties":{"name":"Point 1","introduce":"这是第3个点","photo":"./img/5/","zjt":""},
         "geometry":{"type":"Point","coordinates":[120.144623,35.9282876]}},

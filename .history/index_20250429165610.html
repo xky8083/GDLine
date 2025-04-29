@@ -57,7 +57,7 @@
 </head>
 <body>
     <div id="map"></div>
-    <!-- <button id="locate-btn">定位我的位置</button> -->
+    <button id="locate-btn">定位我的位置</button>
     <script src="./geodata.js"></script>
 
     <script>
@@ -86,12 +86,13 @@
                 var name = layer.feature.properties.name;
                 var photo = layer.feature.properties.photo;
                 var introduce = layer.feature.properties.introduce;
-                var zjt = layer.feature.properties.zjt;
+
                 return `<div class="popup-content">
                             <img style="width:300px; height:100%" src="${photo}" alt="暂无图片" />
                             <p>${zjt}</p>
                         </div>`;
             });
+            //<p>${introduce}</p>
         points.addTo(map);
         var line = L.geoJSON(dataLine)
         var overlayMaps = {
