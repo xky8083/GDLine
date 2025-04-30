@@ -82,7 +82,15 @@
         
         // 初始化地图
         const map = L.map('map',{layers: [satelliteMap2, marked]}).setView([35.9276610,120.1449630], 18);
-        var points=L.geoJSON(dataPoint).bindPopup(function(layer) {
+        var points=L.geoJSON(dataPoint,{pointToLayer:function(feature, latlng) {
+                    var zjt = feature.properties.zjt;
+                    if (zjt != "") {
+                        return L.circleMarker(latlng,{radius:8,color:"black",weight:1,fillColor:'red',fillOpacity:1});
+                    }
+                    else{
+                        return L.marker(latlng)
+                    }
+            }}).bindPopup(function(layer) {
                 var name = layer.feature.properties.name;
                 var photo = layer.feature.properties.photo;
                 var introduce = layer.feature.properties.introduce;
@@ -108,7 +116,9 @@
             })});
             },
         }*/
-        var TPoints = L.geoJSON(dataTPoint).bindPopup(function(layer) {
+        var TPoints = L.geoJSON(dataTPoint, {pointToLayer:function(feature, latlng) {
+                    return L.circleMarker(latlng,{radius:8,color:"black",weight:1,fillColor:'#3388ff',fillOpacity:1});
+            }}).bindPopup(function(layer) {
                 var name = layer.feature.properties.name;
                 var photo = layer.feature.properties.photo;
                 var introduce = layer.feature.properties.introduce;
@@ -131,7 +141,7 @@
                 maximumAge:5000
                 },
                 strings: {
-                title: "Show me where I am, yo!"
+                title: "Show me where I am!"
                 }
             })
             .addTo(map);
