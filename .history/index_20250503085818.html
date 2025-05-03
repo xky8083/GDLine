@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>外电源井可视化系统</title>
+    <title>外电源可视化系统</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
     crossorigin=""/>
@@ -97,7 +97,7 @@
                 var zjt = layer.feature.properties.zjt;
                 return `<div class="popup-content">
                             <img style="width:300px; height:100%" src="${photo}" alt="暂无图片" />
-                            <p>${zjt}</p>
+                            <p>${introduce}</p>
                         </div>`;
             });
         points.addTo(map);

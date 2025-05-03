@@ -134,7 +134,7 @@ var points = {
         {"type":"Feature","properties":{"name":"Point 81","introduce":"这是第81个点","photo":"./img/81/JPEG_20250424_154504.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.1002610,35.9251201]}},
         {"type":"Feature","properties":{"name":"Point 82","introduce":"这是第82个点","photo":"./img/82/JPEG_20250424_154647.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0995725,35.9250366]}},
         {"type":"Feature","properties":{"name":"Point 83","introduce":"这是第83个点","photo":"./img/83/JPEG_20250424_154847.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0989323,35.9248498]}},
-        {"type":"Feature","properties":{"name":"Point 84","introduce":"这是第84(1)个点","photo":"./img/84(1)/JPEG_20250424_154940.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0987273,35.9248114]}},
+        {"type":"Feature","properties":{"name":"Point 84","introduce":"这是第84(1)个点","photo":"./img/84/JPEG_20250424_155342.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0987273,35.9248114]}},
         {"type":"Feature","properties":{"name":"Point 84","introduce":"这是第84个点","photo":"./img/84/JPEG_20250424_155342.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0970902,35.9244360]}},
         //{"type":"Feature","properties":{"name":"Point 85","introduce":"这是第85个点","photo":"./img/85/JPEG_20250424_155743.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0966717,35.9242109]}},
         //{"type":"Feature","properties":{"name":"Point 86","introduce":"这是第86个点","photo":"./img/86/JPEG_20250424_155910.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0959232,35.9242508]}},
@@ -163,8 +163,8 @@ var points = {
         {"type":"Feature","properties":{"name":"Point 109","introduce":"这是第109个点","photo":"./img/109/JPEG_20250424_164209.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0889095,35.9278891]}},
         {"type":"Feature","properties":{"name":"Point 110","introduce":"这是第110个点","photo":"./img/110/JPEG_20250424_164601.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.0895647,35.9295409]}},
         {"type":"Feature","properties":{"name":"Point 110","introduce":"这是第111个点","photo":"","zjt":""},"geometry":{"type":"Point","coordinates":[120.0895797,35.9296359]}},
-        //{"type":"Feature","properties":{"name":"Point 111","introduce":"这是第112个点","photo":"./img/112/f685ebc4-0576-4ae9-be3d-9c4a0f30accb.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.09380340,35.92363829]}},
-        {"type":"Feature","properties":{"name":"Point 112","introduce":"这是第113个点","photo":"./img/113/mmexport1746233685963.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.09651212,35.92421315]}},
+        //{"type":"Feature","properties":{"name":"Point 111","introduce":"这是第111个点","photo":"./img/111/f685ebc4-0576-4ae9-be3d-9c4a0f30accb.jpg","zjt":""},"geometry":{"type":"Point","coordinates":[120.09380340,35.92363829]}},
+
     ]};
     var TPoints = {
         "type":"FeatureCollection"
